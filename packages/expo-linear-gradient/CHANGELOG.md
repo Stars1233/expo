@@ -4,7 +4,11 @@
 
 ### 🛠 Breaking changes
 
+- Bumped iOS and tvOS deployment target to 15.1. ([#30840](https://github.com/expo/expo/pull/30840) by [@tsapeta](https://github.com/tsapeta))
+
 ### 🎉 New features
+
+- Add experimental support for React Server Components. ([#29404](https://github.com/expo/expo/pull/29404) by [@EvanBacon](https://github.com/EvanBacon))
 
 ### 🐛 Bug fixes
 

@@ -7,10 +7,13 @@
 ### 🎉 New features
 
 - Added `react-native-config` command to support core autolinking for react-native. ([#29818](https://github.com/expo/expo/pull/29818) by [@kudo](https://github.com/kudo))
+- Added AAR files autolinking as Gradle projects. ([#30706](https://github.com/expo/expo/pull/30706) by [@kudo](https://github.com/kudo))
 
 ### 🐛 Bug fixes
 
 - [Android] Fixed autolinking of Maven AWS S3 repository. ([#30204](https://github.com/expo/expo/pull/30204) by [@ElielC](https://github.com/ElielC))
+- [Android] Fixed autolinking when using Gradle Kotlin script. ([#30448](https://github.com/expo/expo/pull/30448) by [@amrfarid140](https://github.com/amrfarid140))
+- Added missing `project.android.packageName` in react-native-config for Android core autolinking. ([#30913](https://github.com/expo/expo/pull/30913) by [@kudo](https://github.com/kudo))
 
 ### 💡 Others
 
