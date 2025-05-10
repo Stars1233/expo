@@ -10,6 +10,23 @@
 
 ### 💡 Others
 
+## 0.24.13 — 2025-05-08
+
+### 🐛 Bug fixes
+
+- Update to `lan-network@^0.1.6` for VPN network local IP changes and Windows fixes ([#36747](https://github.com/expo/expo/pull/36747) by [@kitten](https://github.com/kitten))
+
+## 0.24.12 — 2025-05-06
+
+### 💡 Others
+
+- Remove EAS build cache provider implementation ([#36584](https://github.com/expo/expo/pull/36584) by [@gabrieldonadel](https://github.com/gabrieldonadel))
+- Rename remote build cache provider to build cache provider ([#36643](https://github.com/expo/expo/pull/36643) by [@gabrieldonadel](https://github.com/gabrieldonadel))
+
+## 0.24.11 — 2025-05-03
+
+_This version does not introduce any user-facing changes._
+
 ## 0.24.10 — 2025-05-01
 
 ### 🎉 New features

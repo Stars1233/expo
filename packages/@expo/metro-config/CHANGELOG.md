@@ -10,6 +10,18 @@
 
 ### 💡 Others
 
+## 0.20.14 — 2025-05-06
+
+### 🐛 Bug fixes
+
+- Fix issue with HMR env vars in development not being readable in development. ([#36652](https://github.com/expo/expo/pull/36652) by [@EvanBacon](https://github.com/EvanBacon))
+
+## 0.20.13 — 2025-05-03
+
+### 🐛 Bug fixes
+
+- Avoid mixing up ESM imports with non-ESM imports when collecting dependencies of single line files. ([#36594](https://github.com/expo/expo/pull/36594) by [@byCedric](https://github.com/byCedric))
+
 ## 0.20.12 — 2025-05-01
 
 ### 🐛 Bug fixes

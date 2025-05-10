@@ -8,7 +8,28 @@
 
 ### 🐛 Bug fixes
 
+- Flush state before imperative navigation ([#36699](https://github.com/expo/expo/pull/36699) by [@marklawlor](https://github.com/marklawlor))
+- Fix web url from updating during initial load with nested navigators ([#36690](https://github.com/expo/expo/pull/36690) by [@marklawlor](https://github.com/marklawlor))
+
 ### 💡 Others
+
+## 5.0.6 — 2025-05-06
+
+### 🐛 Bug fixes
+
+- Fix <Tabs /> behaviour with replace and backHistory=order ([#36481](https://github.com/expo/expo/pull/36481) by [@marklawlor](https://github.com/marklawlor))
+
+## 5.0.5 — 2025-05-02
+
+### 🐛 Bug fixes
+
+- Fix incorrect route info for nested tabs when navigating via touch ([#36558](https://github.com/expo/expo/pull/36558) by [@marklawlor](https://github.com/marklawlor))
+- Prevent incorrect warning when using custom navigators ([#36508](https://github.com/expo/expo/pull/36508) by [@marklawlor](https://github.com/marklawlor))
+
+### 💡 Others
+
+- Switch useContext to use ([#36414](https://github.com/expo/expo/pull/36414) by [@marklawlor](https://github.com/marklawlor))
+- Include tests in typecheck. Use seperate build tsconfig ([#36485](https://github.com/expo/expo/pull/36485) by [@marklawlor](https://github.com/marklawlor))
 
 ## 5.0.4 — 2025-05-01
 
