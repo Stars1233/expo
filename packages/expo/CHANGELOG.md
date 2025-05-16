@@ -10,6 +10,26 @@
 
 ### 💡 Others
 
+- Disable default timeout for `expo/fetch` requests on iOS. ([#36838](https://github.com/expo/expo/pull/36838) by [@kudo](https://github.com/kudo))
+
+## 53.0.9 — 2025-05-08
+
+### 🐛 Bug fixes
+
+- respect `react-native` type export conditions ([#36728](https://github.com/expo/expo/pull/36728) by [@vonovak](https://github.com/vonovak))
+
+## 53.0.8 — 2025-05-06
+
+_This version does not introduce any user-facing changes._
+
+## 53.0.7 — 2025-05-03
+
+_This version does not introduce any user-facing changes._
+
+## 53.0.6 — 2025-05-02
+
+### 💡 Others
+
 - Bump react-native-safe-area-context ([#36545](https://github.com/expo/expo/pull/36545) by [@brentvatne](https://github.com/brentvatne))
 
 ## 53.0.5 — 2025-05-01

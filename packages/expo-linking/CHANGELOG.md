@@ -10,6 +10,14 @@
 
 ### 💡 Others
 
+- Remove "Please" from warnings and errors ([#36862](https://github.com/expo/expo/pull/36862) by [@brentvatne](https://github.com/brentvatne))
+
+## 7.1.5 — 2025-05-08
+
+### 🐛 Bug fixes
+
+- Fixed `createURL` double-encodes URI parameters. ([#36704](https://github.com/expo/expo/pull/36704) by [@lukmccall](https://github.com/lukmccall))
+
 ## 7.1.4 — 2025-04-30
 
 _This version does not introduce any user-facing changes._

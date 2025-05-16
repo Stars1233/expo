@@ -6,9 +6,19 @@
 
 ### 🎉 New features
 
+- [iOS] Add module registry encoder for JSON. ([#36677](https://github.com/expo/expo/pull/36677) by [@aleqsio](https://github.com/aleqsio))
+- [Android] New custom Type Converter API ([#36823](https://github.com/expo/expo/pull/36823) by [@jakex7](https://github.com/jakex7))
+
 ### 🐛 Bug fixes
 
 ### 💡 Others
+
+## 2.3.13 — 2025-05-08
+
+### 🐛 Bug fixes
+
+- [Android] Fix `getSharedObjectId` for devices running android 7 and below. ([#36698](https://github.com/expo/expo/pull/36698) by [@lukmccall](https://github.com/lukmccall))
+- [iOS] Fixed missing upload progress from `XMLHttpRequest` when network inspector is enabled. ([#36715](https://github.com/expo/expo/pull/36715) by [@kudo](https://github.com/kudo))
 
 ## 2.3.12 — 2025-04-30
 

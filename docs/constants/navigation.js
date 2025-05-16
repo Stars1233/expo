@@ -397,6 +397,7 @@ export const eas = [
     makePage('eas/workflows/examples.mdx'),
     makePage('eas/workflows/syntax.mdx'),
     makePage('eas/workflows/automating-eas-cli.mdx'),
+    makePage('eas/workflows/limitations.mdx'),
     makeGroup('Reference', [makePage('eas/workflows/reference/e2e-tests.mdx')]),
   ]),
   makeSection('EAS Build', [
@@ -493,7 +494,6 @@ export const eas = [
       makePage('eas-update/rollouts.mdx'),
       makePage('eas-update/rollbacks.mdx'),
       makePage('eas-update/optimize-assets.mdx'),
-      makePage('eas-update/continuous-deployment.mdx'),
       makePage('eas-update/deployment-patterns.mdx'),
     ]),
     makeGroup('Concepts', [
