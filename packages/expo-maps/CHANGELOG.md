@@ -6,9 +6,25 @@
 
 ### 🎉 New features
 
+- Add `isMyLocationEnabled` prop on iOS. ([#36741](https://github.com/expo/expo/pull/36741) by [@fobos531](https://github.com/fobos531))
+
 ### 🐛 Bug fixes
 
 ### 💡 Others
+
+## 0.10.0 — 2025-05-08
+
+### 🎉 New features
+
+- Add polyline rendering support on Android and iOS. ([#36236](https://github.com/expo/expo/pull/36236) by [@fobos531](https://github.com/fobos531))
+- Add circle rendering support on Android and iOS. ([#36439](https://github.com/expo/expo/pull/36439) by [@fobos531](https://github.com/fobos531))
+
+## 0.9.9 — 2025-05-06
+
+### 🎉 New features
+
+- [iOS] Added Look Around support. ([#36415](https://github.com/expo/expo/pull/36415) by [@fobos531](https://github.com/fobos531))
+- Add polyline rendering support on Android and iOS. ([#36236](https://github.com/expo/expo/pull/36236) by [@fobos531](https://github.com/fobos531))
 
 ## 0.9.8 — 2025-04-30
 
@@ -16,6 +32,7 @@
 
 - Added `id` property to markers and polylines. ([#36422](https://github.com/expo/expo/pull/36422) by [@fobos531](https://github.com/fobos531))
 - Add polyline rendering support on Android and iOS. ([#36236](https://github.com/expo/expo/pull/36236) by [@fobos531](https://github.com/fobos531))
+- Add polygons rendering support on Android and iOS. ([#36606](https://github.com/expo/expo/pull/36606) by [@fobos531](https://github.com/fobos531))
 
 ## 0.9.7 — 2025-04-28
 
