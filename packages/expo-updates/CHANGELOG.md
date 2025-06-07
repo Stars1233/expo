@@ -8,7 +8,19 @@
 
 ### 🐛 Bug fixes
 
+- Fix update failure reason not populated on iOS. ([#36893](https://github.com/expo/expo/pull/36893) by [@brainbicycle](https://github.com/brainbicycle))
+
 ### 💡 Others
+
+- Remove "Please" from warnings and errors ([#36862](https://github.com/expo/expo/pull/36862) by [@brentvatne](https://github.com/brentvatne))
+- [Android] Cleanup state machine resources when the module is destroyed. ([#37193](https://github.com/expo/expo/pull/37193) by [@alanjhughes](https://github.com/alanjhughes))
+
+## 0.28.13 — 2025-05-08
+
+### 🐛 Bug fixes
+
+- [Android] Fixed errors when `configuration-cache` is enabled. ([#36678](https://github.com/expo/expo/pull/36678) by [@lukmccall](https://github.com/lukmccall))
+- [iOS] Update the constraints of the deferred root view. ([#36744](https://github.com/expo/expo/pull/36744) by [@alanjhughes](https://github.com/alanjhughes))
 
 ## 0.28.12 — 2025-05-01
 

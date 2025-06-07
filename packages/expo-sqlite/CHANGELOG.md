@@ -8,7 +8,25 @@
 
 ### 🐛 Bug fixes
 
+- [Android] Fix nullability of binding params. ([#37200](https://github.com/expo/expo/pull/37200) by [@lukmccall](https://github.com/lukmccall))
+- Fixed exceptions when SQLite session API returns empty buffer. ([#37246](https://github.com/expo/expo/pull/37246) by [@kudo](https://github.com/kudo))
+- Fixed minimum OS version support for libsql.xcframework. ([#37130](https://github.com/expo/expo/pull/37130) by [@kudo](https://github.com/kudo))
+
 ### 💡 Others
+
+- Prevent `maybeFinalizeAllStatements` throwing exceptions. ([#36843](https://github.com/expo/expo/pull/36843) by [@kudo](https://github.com/kudo))
+- Apply [#36674](https://github.com/expo/expo/pull/36674) change to **SQLiteModuleLibSQL.swift**. ([#36850](https://github.com/expo/expo/pull/36850) by [@kudo](https://github.com/kudo))
+
+## 15.2.10 — 2025-05-08
+
+### 🐛 Bug fixes
+
+- Fixed parallel issue for `Statement.executeAsync`. ([#36674](https://github.com/expo/expo/pull/36674) by [@kudo](https://github.com/kudo))
+
+### 💡 Others
+
+- Avoided synchronous API calls for `kv-store`. ([#36669](https://github.com/expo/expo/pull/36669) by [@kudo](https://github.com/kudo))
+- Improved synchronous APIs on web. ([#36670](https://github.com/expo/expo/pull/36670) by [@kudo](https://github.com/kudo))
 
 ## 15.2.9 — 2025-04-30
 
