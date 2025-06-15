@@ -8,7 +8,19 @@
 
 ### 🐛 Bug fixes
 
+- [Android] Fix Fast Refresh toggled off by default on Android. ([#37132](https://github.com/expo/expo/pull/37132) by [@coolsoftwaretyler](https://github.com/coolsoftwaretyler))
+
 ### 💡 Others
+
+### ⚠️ Notices
+
+- Added support for React Native 0.80.x. ([#37400](https://github.com/expo/expo/pull/37400) by [@gabrieldonadel](https://github.com/gabrieldonadel))
+
+## 6.1.11 - 2025-06-04
+
+### 🐛 Bug fixes
+
+- [iOS] Fix custom menu actions not triggering their callbacks after a reload. ([#37084](https://github.com/expo/expo/pull/37084) by [@alanjhughes](https://github.com/alanjhughes))
 
 ## 6.1.10 — 2025-05-01
 

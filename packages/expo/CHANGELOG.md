@@ -10,6 +10,44 @@
 
 ### 💡 Others
 
+### ⚠️ Notices
+
+- Added support for React Native 0.80.x. ([#37400](https://github.com/expo/expo/pull/37400) by [@gabrieldonadel](https://github.com/gabrieldonadel))
+
+## 53.0.11 - 2025-06-08
+
+_This version does not introduce any user-facing changes._
+
+## 53.0.10 - 2025-06-04
+
+### 🐛 Bug fixes
+
+- [iOS] Call `createRootViewController` from the `ExpoReactNativeFactoryDelegate`. ([#36787](https://github.com/expo/expo/pull/36787) by [@alanjhughes](https://github.com/alanjhughes))
+- [Android] Re-throw error in `handleInstanceException` if nothing is registered to handle it. ([#37021](https://github.com/expo/expo/pull/37021) by [@alanjhughes](https://github.com/alanjhughes))
+- [types] Fix conflict between React Native Web and Reanimated 4 types ([#37024](https://github.com/expo/expo/pull/37024) by [@marklawlor](https://github.com/marklawlor))
+
+### 💡 Others
+
+- Disable default timeout for `expo/fetch` requests on iOS. ([#36838](https://github.com/expo/expo/pull/36838) by [@kudo](https://github.com/kudo))
+
+## 53.0.9 — 2025-05-08
+
+### 🐛 Bug fixes
+
+- respect `react-native` type export conditions ([#36728](https://github.com/expo/expo/pull/36728) by [@vonovak](https://github.com/vonovak))
+
+## 53.0.8 — 2025-05-06
+
+_This version does not introduce any user-facing changes._
+
+## 53.0.7 — 2025-05-03
+
+_This version does not introduce any user-facing changes._
+
+## 53.0.6 — 2025-05-02
+
+### 💡 Others
+
 - Bump react-native-safe-area-context ([#36545](https://github.com/expo/expo/pull/36545) by [@brentvatne](https://github.com/brentvatne))
 
 ## 53.0.5 — 2025-05-01

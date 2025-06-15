@@ -8,7 +8,19 @@
 
 ### 🐛 Bug fixes
 
+- [Android] Fix missing launch args from pending intent extras. ([#37172](https://github.com/expo/expo/pull/37172) by [@coolsoftwaretyler](https://github.com/coolsoftwaretyler))
+
 ### 💡 Others
+
+### ⚠️ Notices
+
+- Added support for React Native 0.80.x. ([#37400](https://github.com/expo/expo/pull/37400) by [@gabrieldonadel](https://github.com/gabrieldonadel))
+
+## 5.1.12 - 2025-06-04
+
+### 🐛 Bug fixes
+
+- [Android] Remove `testDebug` variant from npm package. ([#36845](https://github.com/expo/expo/pull/36845) by [@lukmccall](https://github.com/lukmccall))
 
 ## 5.1.11 — 2025-05-01
 
