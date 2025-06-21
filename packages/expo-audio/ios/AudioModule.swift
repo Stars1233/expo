@@ -2,10 +2,14 @@ import ExpoModulesCore
 
 public class AudioModule: Module {
   private var sessionIsActive = true
+  private let registry = AudioComponentRegistry()
 
   // MARK: Properties
   private var recordingSettings = [String: Any]()
   private var shouldPlayInBackground = false
+  private var interruptionMode: InterruptionMode = .mixWithOthers
+  private var interruptedPlayers = Set<String>()
+  private var playerVolumes = [String: Float]()
 
   public func definition() -> ModuleDefinition {
     Name("ExpoAudio")
@@ -15,6 +19,8 @@ public class AudioModule: Module {
       self.appContext?.permissions?.register([
         AudioRecordingRequester()
       ])
+
+      setupInterruptionHandling()
       #endif
     }
 
@@ -51,27 +57,19 @@ public class AudioModule: Module {
     }
 
     OnDestroy {
-      AudioComponentRegistry.shared.removeAll()
+      registry.removeAll()
+      NotificationCenter.default.removeObserver(self)
     }
 
     OnAppEntersBackground {
       if !shouldPlayInBackground {
-        AudioComponentRegistry.shared.players.values.forEach { player in
-          if player.isPlaying {
-            player.wasPlaying = true
-            player.ref.pause()
-          }
-        }
+        pauseAllPlayers()
       }
     }
 
     OnAppEntersForeground {
       if !shouldPlayInBackground {
-        AudioComponentRegistry.shared.players.values.forEach { player in
-          if player.wasPlaying {
-            player.ref.play()
-          }
-        }
+        resumeAllPlayers()
       }
     }
 
@@ -80,7 +78,8 @@ public class AudioModule: Module {
       Constructor { (source: AudioSource?, updateInterval: Double) -> AudioPlayer in
         let avPlayer = AudioUtils.createAVPlayer(from: source)
         let player = AudioPlayer(avPlayer, interval: updateInterval)
-        AudioComponentRegistry.shared.add(player)
+        player.owningRegistry = self.registry
+        self.registry.add(player)
         return player
       }
 
@@ -175,7 +174,7 @@ public class AudioModule: Module {
       }
 
       Function("remove") { player in
-        AudioComponentRegistry.shared.remove(player)
+        self.registry.remove(player)
       }
 
       Function("setAudioSamplingEnabled") { (player, enabled: Bool) in
@@ -201,7 +200,8 @@ public class AudioModule: Module {
         let recordingDir = try recordingDirectory()
         let avRecorder = AudioUtils.createRecorder(directory: recordingDir, with: options)
         let recorder = AudioRecorder(avRecorder)
-        AudioComponentRegistry.shared.add(recorder)
+        recorder.owningRegistry = self.registry
+        self.registry.add(recorder)
 
         return recorder
       }
@@ -223,7 +223,7 @@ public class AudioModule: Module {
       }
 
       AsyncFunction("prepareToRecordAsync") { (recorder, options: RecordingOptions?) in
-        recorder.prepare(options: options)
+        try recorder.prepare(options: options)
       }
 
       Function("record") { (recorder: AudioRecorder) -> [String: Any] in
@@ -270,6 +270,143 @@ public class AudioModule: Module {
     #endif
   }
 
+  private func setupInterruptionHandling() {
+    let session = AVAudioSession.sharedInstance()
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(handleAudioSessionInterruption(_:)),
+      name: AVAudioSession.interruptionNotification,
+      object: session
+    )
+
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(handleAudioSessionRouteChange(_:)),
+      name: AVAudioSession.routeChangeNotification,
+      object: session
+    )
+  }
+
+  @objc private func handleAudioSessionInterruption(_ notification: Notification) {
+    guard let userInfo = notification.userInfo,
+      let interruptionTypeRaw = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+      let interruptionType = AVAudioSession.InterruptionType(rawValue: interruptionTypeRaw) else {
+      return
+    }
+
+    switch interruptionType {
+    case .began:
+      handleInterruptionBegan()
+
+    case .ended:
+      if let optionsRaw = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
+        let options = AVAudioSession.InterruptionOptions(rawValue: optionsRaw)
+        handleInterruptionEnded(with: options)
+      } else {
+        handleInterruptionEnded(with: [])
+      }
+
+    @unknown default:
+      break
+    }
+  }
+
+  private func handleInterruptionBegan() {
+    interruptedPlayers.removeAll()
+    playerVolumes.removeAll()
+
+    registry.allPlayers.values.forEach { player in
+      if player.isPlaying {
+        interruptedPlayers.insert(player.id)
+        switch interruptionMode {
+        case .duckOthers:
+          playerVolumes[player.id] = player.ref.volume
+          player.ref.volume *= 0.5
+        case .doNotMix, .mixWithOthers:
+          player.ref.pause()
+        }
+      }
+    }
+
+#if os(iOS)
+    registry.allRecorders.values.forEach { recorder in
+      if recorder.isRecording {
+        recorder.pauseRecording()
+      }
+    }
+#endif
+  }
+
+  private func handleInterruptionEnded(with options: AVAudioSession.InterruptionOptions) {
+    do {
+      try AVAudioSession.sharedInstance().setActive(true, options: [.notifyOthersOnDeactivation])
+      if options.contains(.shouldResume) {
+        resumeInterruptedPlayers()
+      }
+    } catch {
+      print("Failed to reactivate audio session: \(error)")
+    }
+  }
+
+  @objc private func handleAudioSessionRouteChange(_ notification: Notification) {
+    guard let userInfo = notification.userInfo,
+      let reasonRaw = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+      let reason = AVAudioSession.RouteChangeReason(rawValue: reasonRaw) else {
+      return
+    }
+
+    switch reason {
+    case .oldDeviceUnavailable:
+      pauseAllPlayers()
+    default:
+      break
+    }
+  }
+
+  private func resumeInterruptedPlayers() {
+    registry.allPlayers.values.forEach { player in
+      if interruptedPlayers.contains(player.id) {
+        switch interruptionMode {
+        case .duckOthers:
+          if let originalVolume = playerVolumes[player.id] {
+            player.ref.volume = originalVolume
+          }
+        case .doNotMix, .mixWithOthers:
+          player.ref.play()
+        }
+      }
+    }
+
+#if os(iOS)
+    registry.allRecorders.values.forEach { recorder in
+      if recorder.allowsRecording && !recorder.isRecording {
+        _ = recorder.startRecording()
+      }
+    }
+#endif
+
+    interruptedPlayers.removeAll()
+    playerVolumes.removeAll()
+  }
+
+  private func pauseAllPlayers() {
+    registry.allPlayers.values.forEach { player in
+      if player.isPlaying {
+        player.wasPlaying = true
+        player.ref.pause()
+      }
+    }
+  }
+
+  private func resumeAllPlayers() {
+    registry.allPlayers.values.forEach { player in
+      if player.wasPlaying {
+        player.ref.play()
+        player.wasPlaying = false
+      }
+    }
+  }
+
   private func recordingDirectory() throws -> URL {
     guard let cachesDir = appContext?.fileSystem?.cachesDirectory, let directory = URL(string: cachesDir) else {
       throw Exceptions.AppContextLost()
@@ -279,9 +416,7 @@ public class AudioModule: Module {
 
   private func setIsAudioActive(_ isActive: Bool) throws {
     if !isActive {
-      for player in AudioComponentRegistry.shared.players.values {
-        player.ref.pause()
-      }
+      pauseAllPlayers()
     }
 
     do {
@@ -297,18 +432,20 @@ public class AudioModule: Module {
     let session = AVAudioSession.sharedInstance()
     var category: AVAudioSession.Category = session.category
     var options: AVAudioSession.CategoryOptions = session.categoryOptions
+
     self.shouldPlayInBackground = mode.shouldPlayInBackground
+    self.interruptionMode = mode.interruptionMode
 
     #if os(iOS)
     if !mode.allowsRecording {
-      AudioComponentRegistry.shared.recorders.values.forEach { recorder in
+      registry.allRecorders.values.forEach { recorder in
         if recorder.isRecording {
           recorder.ref.stop()
           recorder.allowsRecording = false
         }
       }
     } else {
-      AudioComponentRegistry.shared.recorders.values.forEach { recorder in
+      registry.allRecorders.values.forEach { recorder in
         recorder.allowsRecording = true
       }
     }
@@ -332,7 +469,8 @@ public class AudioModule: Module {
       }
     }
 
-    try AVAudioSession.sharedInstance().setCategory(category, options: options)
+    try session.setCategory(category, options: options)
+    try session.setActive(true, options: [.notifyOthersOnDeactivation])
   }
 
   private func checkPermissions() throws {

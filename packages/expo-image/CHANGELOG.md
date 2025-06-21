@@ -8,7 +8,45 @@
 
 ### 🐛 Bug fixes
 
+- [Android] Fix animation resuming by casting image to GifDrawable. ([#37363](https://github.com/expo/expo/pull/37363) by [@Wenszel](https://github.com/Wenszel))
+- [iOS] Fixed contentPosition is not correct after switching theme. ([#37374](https://github.com/expo/expo/pull/37374) by [@kudo](https://github.com/kudo))
+- [Android] Make Glide compiler (`kapt "com.github.bumptech.glide:compiler"`) in the `expo-image` module conditional on the `excludeAppGlideModule` Gradle property. When `excludeAppGlideModule=true`, expo-image now omits its own annotation processing and stub `ExpoImageAppGlideModule.kt`, preventing duplicate `GeneratedAppGlideModuleImpl` conflicts in release builds. ([#37432](https://github.com/expo/expo/pull/37432) by [@antonhudz](https://github.com/antonhudz))
+
 ### 💡 Others
+
+### 📚 3rd party library updates
+
+- [Android] Bumped GIF Glide plugin to 3.0.5 for Android 16KB page size support. ([#37454](https://github.com/expo/expo/pull/37454) by [@kudo](https://github.com/kudo))
+
+## 2.3.0 - 2025-06-11
+
+### 🛠 Breaking changes
+
+- [iOS] `useAppleWebpCodec` has been moved from the source object to the component's prop to make it usable with the local assets. ([#37300](https://github.com/expo/expo/pull/37300) by [@tsapeta](https://github.com/tsapeta))
+
+### 🐛 Bug fixes
+
+- [iOS] Fix blurry images when using `tintColor` by scaling `imageThumbnailPixelSize` with screen density. ([#37235](https://github.com/expo/expo/pull/37235) by [@hirbod](https://github.com/hirbod))
+
+## 2.2.1 - 2025-06-10
+
+_This version does not introduce any user-facing changes._
+
+## 2.2.0 - 2025-06-04
+
+### 🎉 New features
+
+- Add imperative api to lock/unlock/reload resource. ([#36912](https://github.com/expo/expo/pull/36912) by [@jakex7](https://github.com/jakex7))
+
+### 🐛 Bug fixes
+
+- Fix React Server Components support. ([#36801](https://github.com/expo/expo/pull/36801) by [@EvanBacon](https://github.com/EvanBacon))
+- [iOS] Fix PhotoLibrary assets being scaled twice. ([#36776](https://github.com/expo/expo/pull/36776) by [@alanjhughes](https://github.com/alanjhughes))
+- [iOS] Don't add transformers when unnecessary. ([#36884](https://github.com/expo/expo/pull/36884) by [@jakex7](https://github.com/jakex7))
+
+## 2.1.7 — 2025-05-06
+
+_This version does not introduce any user-facing changes._
 
 ## 2.1.6 — 2025-04-30
 

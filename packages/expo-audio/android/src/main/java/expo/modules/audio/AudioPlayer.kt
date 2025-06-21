@@ -44,7 +44,6 @@ class AudioPlayer(
   appContext
 ) {
   val id = UUID.randomUUID().toString()
-  val player = ref
   var preservesPitch = false
   var isPaused = false
   var isMuted = false
@@ -57,8 +56,8 @@ class AudioPlayer(
 
   private var updateJob: Job? = null
 
-  val currentTime get() = player.currentPosition / 1000f
-  val duration get() = if (player.duration != C.TIME_UNSET) player.duration / 1000f else 0f
+  val currentTime get() = ref.currentPosition / 1000f
+  val duration get() = if (ref.duration != C.TIME_UNSET) ref.duration / 1000f else 0f
 
   init {
     addPlayerListeners()
@@ -73,15 +72,15 @@ class AudioPlayer(
       if (boundedVolume > 0f) {
         previousVolume = boundedVolume
       }
-      player.volume = 0f
+      ref.volume = 0f
     } else {
-      player.volume = if (boundedVolume > 0) boundedVolume else previousVolume
+      ref.volume = if (boundedVolume > 0) boundedVolume else previousVolume
     }
   }
 
   fun setMediaSource(source: MediaSource) {
-    player.setMediaSource(source)
-    player.prepare()
+    ref.setMediaSource(source)
+    ref.prepare()
     startUpdating()
   }
 
@@ -92,11 +91,15 @@ class AudioPlayer(
         delay(updateInterval.toLong())
       }
     }
-      .onEach { sendPlayerUpdate() }
+      .onEach {
+        if (playing) {
+          sendPlayerUpdate()
+        }
+      }
       .launchIn(playerScope)
   }
 
-  private fun addPlayerListeners() = player.addListener(object : Player.Listener {
+  private fun addPlayerListeners() = ref.addListener(object : Player.Listener {
     override fun onIsPlayingChanged(isPlaying: Boolean) {
       playing = isPlaying
       playerScope.launch {
@@ -106,7 +109,7 @@ class AudioPlayer(
 
     override fun onIsLoadingChanged(isLoading: Boolean) {
       playerScope.launch {
-        sendPlayerUpdate(mapOf("isLoaded" to isLoading))
+        sendPlayerUpdate(mapOf("isLoaded" to !isLoading))
       }
     }
 
@@ -146,24 +149,24 @@ class AudioPlayer(
   }
 
   fun currentStatus(): Map<String, Any?> {
-    val isMuted = player.volume == 0f
-    val isLooping = player.repeatMode == Player.REPEAT_MODE_ONE
-    val isLoaded = player.playbackState == Player.STATE_READY
-    val isBuffering = player.playbackState == Player.STATE_BUFFERING
+    val isMuted = ref.volume == 0f
+    val isLooping = ref.repeatMode == Player.REPEAT_MODE_ONE
+    val isLoaded = ref.playbackState == Player.STATE_READY
+    val isBuffering = ref.playbackState == Player.STATE_BUFFERING
 
     return mapOf(
       "id" to id,
       "currentTime" to currentTime,
-      "playbackState" to playbackStateToString(player.playbackState),
-      "timeControlStatus" to if (player.isPlaying) "playing" else "paused",
+      "playbackState" to playbackStateToString(ref.playbackState),
+      "timeControlStatus" to if (ref.isPlaying) "playing" else "paused",
       "reasonForWaitingToPlay" to null,
       "mute" to isMuted,
       "duration" to duration,
-      "playing" to player.isPlaying,
+      "playing" to ref.isPlaying,
       "loop" to isLooping,
-      "didJustFinish" to (player.playbackState == Player.STATE_ENDED),
-      "isLoaded" to if (player.playbackState == Player.STATE_ENDED) true else isLoaded,
-      "playbackRate" to player.playbackParameters.speed,
+      "didJustFinish" to (ref.playbackState == Player.STATE_ENDED),
+      "isLoaded" to if (ref.playbackState == Player.STATE_ENDED) true else isLoaded,
+      "playbackRate" to ref.playbackParameters.speed,
       "shouldCorrectPitch" to preservesPitch,
       "isBuffering" to isBuffering
     )
@@ -181,7 +184,7 @@ class AudioPlayer(
       "channels" to listOf(
         mapOf("frames" to sample)
       ),
-      "timestamp" to player.currentPosition
+      "timestamp" to ref.currentPosition
     )
     emit(AUDIO_SAMPLE_UPDATE, body)
   }
@@ -199,13 +202,13 @@ class AudioPlayer(
   private fun createVisualizer() {
     // It must only be created once, otherwise the app will crash
     if (visualizer == null) {
-      visualizer = Visualizer(player.audioSessionId).apply {
+      visualizer = Visualizer(ref.audioSessionId).apply {
         captureSize = Visualizer.getCaptureSizeRange()[1]
         setDataCaptureListener(
           object : Visualizer.OnDataCaptureListener {
             override fun onWaveFormDataCapture(visualizer: Visualizer?, waveform: ByteArray?, samplingRate: Int) {
               waveform?.let {
-                if (samplingEnabled) {
+                if (samplingEnabled && ref.isPlaying) {
                   val data = extractAmplitudes(it)
                   sendAudioSampleUpdate(data)
                 }
@@ -227,7 +230,7 @@ class AudioPlayer(
     appContext?.mainQueue?.launch {
       playerScope.cancel()
       visualizer?.release()
-      player.release()
+      ref.release()
     }
   }
 

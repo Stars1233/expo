@@ -10,18 +10,12 @@ class AudioRecorder: SharedRef<AVAudioRecorder>, RecordingResultHandler {
   private var isPrepared = false
   private var recordingSession = AVAudioSession.sharedInstance()
   var allowsRecording = true
+  weak var owningRegistry: AudioComponentRegistry?
 
   override init(_ ref: AVAudioRecorder) {
     super.init(ref)
     recordingDelegate = RecordingDelegate(resultHandler: self)
     ref.delegate = recordingDelegate
-
-    do {
-      try recordingSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker])
-      try recordingSession.setActive(true)
-    } catch {
-      log.info("Failed to update the recording session")
-    }
   }
 
   var isRecording: Bool {
@@ -47,15 +41,28 @@ class AudioRecorder: SharedRef<AVAudioRecorder>, RecordingResultHandler {
     return deviceCurrentTime - startTimestamp
   }
 
-  func prepare(options: RecordingOptions?) {
+  func prepare(options: RecordingOptions?) throws {
+    do {
+      try recordingSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker])
+      try recordingSession.setActive(true)
+    } catch {
+      throw AudioRecordingException("Failed to configure audio session: \(error.localizedDescription)")
+    }
+
     if let options {
-      ref = AudioUtils.createRecorder(directory: recordingDirectory, with: options)
+      let newRef = AudioUtils.createRecorder(directory: recordingDirectory, with: options)
+      ref = newRef
       ref.delegate = recordingDelegate
     }
+
     if let isMeteringEnabled = options?.isMeteringEnabled {
       ref.isMeteringEnabled = isMeteringEnabled
     }
-    ref.prepareToRecord()
+
+    guard ref.prepareToRecord() else {
+      throw AudioRecordingException("Failed to prepare recorder")
+    }
+
     isPrepared = true
   }
 
@@ -131,7 +138,18 @@ class AudioRecorder: SharedRef<AVAudioRecorder>, RecordingResultHandler {
   }
 
   override func sharedObjectWillRelease() {
-    AudioComponentRegistry.shared.remove(self)
-    ref.stop()
+    owningRegistry?.remove(self)
+
+    if ref.isRecording {
+      ref.stop()
+    }
+
+    ref.delegate = nil
+    recordingDelegate = nil
+
+    do {
+      try recordingSession.setActive(false, options: [.notifyOthersOnDeactivation])
+    } catch {
+    }
   }
 }
