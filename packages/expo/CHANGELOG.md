@@ -6,7 +6,61 @@
 
 ### 🎉 New features
 
+- Add `TextDecoderStream` and `TextEncoderStream` APIs to the native runtime. ([#37507](https://github.com/expo/expo/pull/37507) by [@EvanBacon](https://github.com/EvanBacon))
+- Enable async requires by default. ([#36405](https://github.com/expo/expo/pull/36405) by [@EvanBacon](https://github.com/EvanBacon))
+
 ### 🐛 Bug fixes
+
+- [iOS] Fix missing CDP headers when using static frameworks. ([#37448](https://github.com/expo/expo/pull/37448) by [@alanjhughes](https://github.com/alanjhughes))
+- Fixed `expo/fetch` requests cancellation error message on Android. ([#37509](https://github.com/expo/expo/pull/37509) by [@kudo](https://github.com/kudo))
+
+### 💡 Others
+
+- [Android] Aligned `expo/fetch` cancelation error message as iOS. ([#37517](https://github.com/expo/expo/pull/37517) by [@kudo](https://github.com/kudo))
+
+### ⚠️ Notices
+
+- Added support for React Native 0.80.x. ([#37400](https://github.com/expo/expo/pull/37400) by [@gabrieldonadel](https://github.com/gabrieldonadel))
+
+## 53.0.13 - 2025-06-26
+
+_This version does not introduce any user-facing changes._
+
+## 53.0.12 - 2025-06-18
+
+_This version does not introduce any user-facing changes._
+
+## 53.0.11 - 2025-06-08
+
+_This version does not introduce any user-facing changes._
+
+## 53.0.10 - 2025-06-04
+
+### 🐛 Bug fixes
+
+- [iOS] Call `createRootViewController` from the `ExpoReactNativeFactoryDelegate`. ([#36787](https://github.com/expo/expo/pull/36787) by [@alanjhughes](https://github.com/alanjhughes))
+- [Android] Re-throw error in `handleInstanceException` if nothing is registered to handle it. ([#37021](https://github.com/expo/expo/pull/37021) by [@alanjhughes](https://github.com/alanjhughes))
+- [types] Fix conflict between React Native Web and Reanimated 4 types ([#37024](https://github.com/expo/expo/pull/37024) by [@marklawlor](https://github.com/marklawlor))
+
+### 💡 Others
+
+- Disable default timeout for `expo/fetch` requests on iOS. ([#36838](https://github.com/expo/expo/pull/36838) by [@kudo](https://github.com/kudo))
+
+## 53.0.9 — 2025-05-08
+
+### 🐛 Bug fixes
+
+- respect `react-native` type export conditions ([#36728](https://github.com/expo/expo/pull/36728) by [@vonovak](https://github.com/vonovak))
+
+## 53.0.8 — 2025-05-06
+
+_This version does not introduce any user-facing changes._
+
+## 53.0.7 — 2025-05-03
+
+_This version does not introduce any user-facing changes._
+
+## 53.0.6 — 2025-05-02
 
 ### 💡 Others
 

@@ -6,9 +6,27 @@
 
 ### 🎉 New features
 
+- Add total and available sizes, directory sizes. ([#37594](https://github.com/expo/expo/pull/37594) by [@aleqsio](https://github.com/aleqsio))
+- Add support for custom headers in downloadFileAsync ([#36108](https://github.com/expo/expo/pull/36108) by [@leonhh](https://github.com/leonhh))
+
 ### 🐛 Bug fixes
 
+- Fix memory usage issue in getInfoAsync ([#37417](https://github.com/expo/expo/pull/37417) by [@Wenszel](https://github.com/Wenszel))
+- Improved type safety in the FileSystem module to support tsconfig setups with stricter rules than the default. ([#37107](https://github.com/expo/expo/pull/37107) by [@hirbod](https://github.com/hirbod))
+
 ### 💡 Others
+
+- Remove "Please" from warnings and errors ([#36862](https://github.com/expo/expo/pull/36862) by [@brentvatne](https://github.com/brentvatne))
+
+## 18.1.10 — 2025-05-08
+
+### 🐛 Bug fixes
+
+- Fix the `UploadTask.uploadAsync` method's return type did not indicate that the method could resolve to `null`. ([#36476](https://github.com/expo/expo/pull/36476) by [@DoctorJohn](https://github.com/DoctorJohn))
+
+## 18.1.9 — 2025-05-03
+
+_This version does not introduce any user-facing changes._
 
 ## 18.1.8 — 2025-04-30
 

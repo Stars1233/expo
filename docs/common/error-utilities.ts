@@ -360,6 +360,7 @@ const RENAMED_PAGES: Record<string, string> = {
   '/eas-update/build-locally/': '/eas-update/standalone-service/',
   '/eas-update/updating-your-app/': '/eas-update/getting-started/',
   '/eas-update/develop-faster/': '/eas-update/preview/',
+  '/eas-update/continuous-deployment/': '/eas/workflows/examples/',
 
   // Expo Router Advanced guides
   '/router/advance/root-layout': '/router/basics/layout/#root-layout',
@@ -492,9 +493,14 @@ const RENAMED_PAGES: Record<string, string> = {
   '/router/create-pages/': '/router/basics/core-concepts/',
   '/router/layouts/': '/router/basics/layout/',
 
+  // After updating config plugin section
+  '/config-plugins/plugins-and-mods/': '/config-plugins/plugins/',
+
   // After merging registerRootComponent info in `expo` API reference
   '/versions/v53.0.0/sdk/register-root-component/':
     '/versions/v53.0.0/sdk/expo/#registerrootcomponentcomponent',
+  '/versions/latest/sdk/register-root-component/':
+    '/versions/latest/sdk/expo/#registerrootcomponentcomponent',
   '/versions/v53.0.0/sdk/url/': '/versions/v53.0.0/sdk/expo/#url-api',
   '/versions/v53.0.0/sdk/encoding/': '/versions/v53.0.0/sdk/expo/#encoding-api',
 
@@ -503,4 +509,7 @@ const RENAMED_PAGES: Record<string, string> = {
 
   // After adding System bars
   '/guides/configuring-statusbar/': '/develop/user-interface/system-bars/',
+
+  // After changing "Privacy Shield" to "Data Privacy Framework" and deleting Privacy Shield page
+  '/regulatory-compliance/privacy-shield/': '/regulatory-compliance/data-and-privacy-protection/',
 };
