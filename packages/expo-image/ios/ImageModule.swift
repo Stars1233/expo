@@ -107,12 +107,28 @@ public final class ImageModule: Module {
         view.autoplay = autoplay ?? true
       }
 
+      Prop("useAppleWebpCodec", true) { (view, useAppleWebpCodec: Bool) in
+        view.useAppleWebpCodec = useAppleWebpCodec
+      }
+
       AsyncFunction("startAnimating") { (view: ImageView) in
         view.sdImageView.startAnimating()
       }
 
       AsyncFunction("stopAnimating") { (view: ImageView) in
         view.sdImageView.stopAnimating()
+      }
+
+      AsyncFunction("lockResourceAsync") { (view: ImageView) in
+        view.lockResource = true
+      }
+
+      AsyncFunction("unlockResourceAsync") { (view: ImageView) in
+        view.lockResource = false
+      }
+
+      AsyncFunction("reloadAsync") { (view: ImageView) in
+        view.reload(force: true)
       }
 
       OnViewDidUpdateProps { view in

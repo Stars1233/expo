@@ -1,4 +1,12 @@
 import { Button } from '@expo/ui/swift-ui';
+import {
+  Button as ButtonPrimitive,
+  CircularProgress,
+  Host,
+  Image,
+  Text,
+  VStack,
+} from '@expo/ui/swift-ui-primitives';
 import * as React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
@@ -14,6 +22,9 @@ export default function ButtonScreen() {
         <Section title="System Styles">
           <Button style={styles.button} variant="default">
             Default
+          </Button>
+          <Button style={styles.button} variant="glass">
+            Glass button
           </Button>
           <Button style={styles.button} variant="bordered">
             Bordered
@@ -64,6 +75,21 @@ export default function ButtonScreen() {
             Red
           </Button>
         </Section>
+        <Section title="Custom children">
+          <Host style={styles.buttonHost}>
+            <ButtonPrimitive>
+              <VStack spacing={4}>
+                <Image systemName="folder" />
+                <Text>Folder</Text>
+              </VStack>
+            </ButtonPrimitive>
+          </Host>
+          <Host style={styles.buttonHost}>
+            <ButtonPrimitive>
+              <CircularProgress color="blue" />
+            </ButtonPrimitive>
+          </Host>
+        </Section>
       </ScrollView>
     </Page>
   );
@@ -73,7 +99,12 @@ const styles = StyleSheet.create({
   button: {
     width: 150,
     margin: 5,
+    marginLeft: 20,
     overflow: 'visible',
+  },
+  buttonHost: {
+    width: 50,
+    height: 50,
   },
   stretch: {
     alignSelf: 'stretch',
